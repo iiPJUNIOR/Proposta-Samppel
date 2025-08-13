@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProcessFlow - Apresentação Comercial Premium</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="presentation-container">
+        <!-- Progress Bar (Desktop only) -->
+        <div class="progress-bar desktop-only">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- Hamburger Menu Button (Mobile) -->
+        <button class="hamburger-btn mobile-only" id="hamburger-btn" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Mobile Navigation Drawer -->
+        <div class="nav-drawer" id="nav-drawer">
+            <div class="drawer-header">
+                <h3><i class="fas fa-stream"></i> ProcessFlow</h3>
+                <button class="drawer-close" id="drawer-close">&times;</button>
+            </div>
+            <nav class="drawer-nav">
+                <a href="#" class="drawer-link active" data-slide="1">
+                    <i class="fas fa-home"></i> 1. Abertura
+                </a>
+                <a href="#" class="drawer-link" data-slide="2">
+                    <i class="fas fa-exclamation-triangle"></i> 2. Problemas Atuais
+                </a>
+                <a href="#" class="drawer-link" data-slide="3">
+                    <i class="fas fa-lightbulb"></i> 3. Solução ProcessFlow
+                </a>
+                <a href="#" class="drawer-link" data-slide="4">
+                    <i class="fas fa-cogs"></i> 4. Funcionalidades
+                </a>
+                <a href="#" class="drawer-link" data-slide="5">
+                    <i class="fas fa-shield-alt"></i> 5. Diferenciais Técnicos
+                </a>
+                <a href="#" class="drawer-link" data-slide="6">
+                    <i class="fas fa-users"></i> 6. Equipe & Cronograma
+                </a>
+                <a href="#" class="drawer-link" data-slide="7">
+                    <i class="fas fa-credit-card"></i> 7. Formas de Pagamento
+                </a>
+            </nav>
+        </div>
+
+        <!-- Drawer Overlay -->
+        <div class="drawer-overlay" id="drawer-overlay"></div>
+
+        <!-- Slide Counter (Desktop only) -->
+        <div class="slide-counter desktop-only">
+            <span id="current-slide">1</span> / <span id="total-slides">7</span>
+        </div>
+
+        <!-- Navigation Controls -->
+        <button class="nav-btn nav-prev" id="prev-btn" aria-label="Slide anterior">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="nav-btn nav-next" id="next-btn" aria-label="Próximo slide">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Admin Modal (hidden, accessible via Ctrl+Shift+A) -->
+        <div class="admin-modal hidden" id="admin-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-cog"></i> Configurações Admin</h3>
+                    <button class="modal-close" id="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Título da Apresentação</label>
+                        <input type="text" class="form-control" id="admin-title"
+                            value="ProcessFlow - Apresentação Comercial Premium" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Velocidade da Transição</label>
+                        <select class="form-control" id="admin-speed">
+                            <option value="0.3">Rápida (0.3s)</option>
+                            <option value="0.5" selected>Normal (0.5s)</option>
+                            <option value="0.8">Lenta (0.8s)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Modo de Apresentação</label>
+                        <select class="form-control" id="admin-mode">
+                            <option value="manual" selected>Manual</option>
+                            <option value="auto-3">Auto (3s por slide)</option>
+                            <option value="auto-5">Auto (5s por slide)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Observações da Apresentação</label>
+                        <textarea class="form-control" id="admin-notes" rows="3"
+                            placeholder="Adicione suas observações aqui..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn--secondary" id="cancel-admin">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button class="btn btn--primary" id="save-admin">
+                        <i class="fas fa-save"></i> Salvar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Overlay -->
+        <div class="modal-overlay hidden" id="modal-overlay"></div>
+
+        <!-- Slides Container - Fixed horizontal layout -->
+        <div class="slides-container" id="slides-container">
+
+            <!-- Slide 1: Abertura -->
+            <div class="slide slide-active" data-slide="1">
+                <div class="slide-content slide-hero">
+                    <div class="hero-logo" data-aos="zoom-in" data-aos-duration="1000">
+                        <i class="fas fa-stream"></i>
+                    </div>
+                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="300">ProcessFlow</h1>
+                    <h2 class="hero-subtitle" data-aos="fade-up" data-aos-delay="500">Sistema de Gestão de Processos
+                        Empresariais</h2>
+                    <p class="hero-description" data-aos="fade-up" data-aos-delay="700">Solução completa para
+                        transformação digital empresarial</p>
+                    <div class="hero-badge" data-aos="fade-up" data-aos-delay="900">
+                        <i class="fas fa-award"></i>
+                        <span>Tecnologia Premium</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Problemas -->
+            <div class="slide" data-slide="2">
+                <div class="slide-content">
+                    <h2 class="slide-title" data-aos="fade-down">Problemas Atuais</h2>
+                    <div class="problems-grid">
+                        <div class="glass-card problem-card" data-aos="fade-up" data-aos-delay="100">
+                            <div class="card-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h3>Processos manuais demorados</h3>
+                            <p>Perda de tempo e produtividade</p>
+                        </div>
+                        <div class="glass-card problem-card" data-aos="fade-up" data-aos-delay="200">
+                            <div class="card-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Falta de rastreamento em tempo real</h3>
+                            <p>Visibilidade limitada dos processos</p>
+                        </div>
+                        <div class="glass-card problem-card" data-aos="fade-up" data-aos-delay="300">
+                            <div class="card-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h3>Relatórios demorados e limitados</h3>
+                            <p>Análises inconsistentes</p>
+                        </div>
+                        <div class="glass-card problem-card" data-aos="fade-up" data-aos-delay="400">
+                            <div class="card-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3>Comunicação fragmentada</h3>
+                            <p>Falhas na coordenação</p>
+                        </div>
+                        <div class="glass-card problem-card" data-aos="fade-up" data-aos-delay="500">
+                            <div class="card-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <h3>Perda de controle operacional</h3>
+                            <p>Gestão ineficiente</p>
+                        </div>
+                        <div class="glass-card problem-card" data-aos="fade-up" data-aos-delay="600">
+                            <div class="card-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h3>Dificuldade de gestão integrada</h3>
+                            <p>Sistemas desconectados</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Solução -->
+            <div class="slide" data-slide="3">
+                <div class="slide-content">
+                    <h2 class="slide-title" data-aos="fade-down">ProcessFlow - A Solução</h2>
+                    <div class="solution-grid">
+                        <div class="glass-card solution-card" data-aos="fade-left" data-aos-delay="100">
+                            <div class="card-icon success">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3>Automação completa de workflows</h3>
+                            <p>Processos inteligentes e eficientes</p>
+                        </div>
+                        <div class="glass-card solution-card" data-aos="fade-left" data-aos-delay="200">
+                            <div class="card-icon success">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h3>Visibilidade total dos processos</h3>
+                            <p>Dashboard em tempo real</p>
+                        </div>
+                        <div class="glass-card solution-card" data-aos="fade-left" data-aos-delay="300">
+                            <div class="card-icon success">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <h3>Relatórios automáticos e inteligentes</h3>
+                            <p>Análises avançadas instantâneas</p>
+                        </div>
+                        <div class="glass-card solution-card" data-aos="fade-left" data-aos-delay="400">
+                            <div class="card-icon success">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h3>Portal exclusivo para clientes</h3>
+                            <p>Experiência premium personalizada</p>
+                        </div>
+                        <div class="glass-card solution-card" data-aos="fade-left" data-aos-delay="500">
+                            <div class="card-icon success">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <h3>Comunicação centralizada</h3>
+                            <p>Integração total de canais</p>
+                        </div>
+                        <div class="glass-card solution-card" data-aos="fade-left" data-aos-delay="600">
+                            <div class="card-icon success">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <h3>Controle operacional completo</h3>
+                            <p>Gestão estratégica avançada</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Funcionalidades -->
+            <div class="slide" data-slide="4">
+                <div class="slide-content">
+                    <h2 class="slide-title" data-aos="fade-down">Funcionalidades Principais</h2>
+                    <div class="features-grid">
+                        <div class="glass-card feature-card" data-aos="fade-up" data-aos-delay="50">
+                            <div class="card-icon">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <h3>Workflow Visual Drag & Drop</h3>
+                            <p>Criação intuitiva de processos</p>
+                        </div>
+                        <div class="glass-card feature-card" data-aos="fade-up" data-aos-delay="100">
+                            <div class="card-icon">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <h3>Portal do Cliente Integrado</h3>
+                            <p>Acompanhamento em tempo real</p>
+                        </div>
+                        <div class="glass-card feature-card" data-aos="fade-up" data-aos-delay="150">
+                            <div class="card-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <h3>Relatórios Premium PDF/CSV</h3>
+                            <p>Análises profissionais automáticas</p>
+                        </div>
+                        <div class="glass-card feature-card" data-aos="fade-up" data-aos-delay="200">
+                            <div class="card-icon">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <h3>Notificações em Tempo Real</h3>
+                            <p>WebSocket + Push notifications</p>
+                        </div>
+
+                        <div class="glass-card feature-card" data-aos="fade-up" data-aos-delay="300">
+                            <div class="card-icon">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <h3>Dashboard Executivo</h3>
+                            <p>Métricas customizadas</p>
+                        </div>
+                        <div class="glass-card feature-card" data-aos="fade-up" data-aos-delay="350">
+                            <div class="card-icon">
+                                <i class="fas fa-users-cog"></i>
+                            </div>
+                            <h3>Gestão de Usuários</h3>
+                            <p>Controle hierárquico completo</p>
+                        </div>
+                        <div class="glass-card feature-card" data-aos="fade-up" data-aos-delay="400">
+                            <div class="card-icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <h3>Sistema de Auditoria</h3>
+                            <p>Rastreabilidade total</p>
+                        </div>
+                        <div class="glass-card feature-card" data-aos="fade-up" data-aos-delay="450">
+                            <div class="card-icon">
+                                <i class="fas fa-plug"></i>
+                            </div>
+                            <h3>Integração APIs Externas</h3>
+                            <p>Conectividade ilimitada</p>
+                        </div>
+                        <div class="glass-card feature-card" data-aos="fade-up" data-aos-delay="500">
+                            <div class="card-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3>Automação Inteligente</h3>
+                            <p>Fluxos automatizados</p>
+                        </div>
+                        <div class="glass-card feature-card" data-aos="fade-up" data-aos-delay="550">
+                            <div class="card-icon">
+                                <i class="fas fa-comment"></i>
+                            </div>
+                            <h3>Chat Integrado</h3>
+                            <p>Comunicação direta</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Diferenciais Técnicos -->
+            <div class="slide" data-slide="5">
+                <div class="slide-content">
+                    <h2 class="slide-title" data-aos="fade-down">Diferenciais Técnicos</h2>
+                    <div class="tech-grid">
+                        <div class="glass-card tech-item" data-aos="fade-left" data-aos-delay="50">
+                            <div class="tech-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Arquitetura Cloud-Native Escalável</span>
+                        </div>
+                        <div class="glass-card tech-item" data-aos="fade-left" data-aos-delay="100">
+                            <div class="tech-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Segurança Nível Bancário (Criptografia + Autenticação)</span>
+                        </div>
+                        <div class="glass-card tech-item" data-aos="fade-left" data-aos-delay="150">
+                            <div class="tech-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Interface Responsiva (Mobile/Desktop/Tablet)</span>
+                        </div>
+                        <div class="glass-card tech-item" data-aos="fade-left" data-aos-delay="200">
+                            <div class="tech-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Sistema de Cache Inteligente para Performance</span>
+                        </div>
+                        <div class="glass-card tech-item" data-aos="fade-left" data-aos-delay="250">
+                            <div class="tech-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Monitoramento 24/7 Automatizado</span>
+                        </div>
+                        <div class="glass-card tech-item" data-aos="fade-left" data-aos-delay="300">
+                            <div class="tech-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>APIs RESTful + WebSocket Real-time</span>
+                        </div>
+
+
+                        <div class="glass-card tech-item" data-aos="fade-left" data-aos-delay="450">
+                            <div class="tech-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Conformidade total com LGPD</span>
+                        </div>
+                        <div class="glass-card tech-item" data-aos="fade-left" data-aos-delay="500">
+                            <div class="tech-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Suporte Técnico Especializado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Equipe & Cronograma -->
+            <div class="slide" data-slide="6">
+                <div class="slide-content">
+                    <h2 class="slide-title" data-aos="fade-down">Equipe & Cronograma</h2>
+                    <div class="team-section">
+                        <div class="glass-card team-info" data-aos="fade-right" data-aos-delay="200">
+                            <h3><i class="fas fa-users"></i> Equipe Especializada</h3>
+                            <ul class="team-list">
+                                <li><i class="fas fa-user-tie"></i> 1 Líder Técnico/Arquiteto</li>
+                                <li><i class="fas fa-code"></i> 1 Desenvolvedor Frontend</li>
+                                <li><i class="fas fa-server"></i> 1 Desenvolvedor Backend</li>
+                                <li><i class="fas fa-paint-brush"></i> 1 UX/UI Designer</li>
+                                <li><i class="fas fa-bug"></i> 1 QA/Tester</li>
+                                <li><i class="fas fa-cloud"></i> 1 DevOps Engineer</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-info">
+                            <div class="glass-card timeline-card" data-aos="fade-left" data-aos-delay="300">
+                                <div class="timeline-icon">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                                <div>
+                                    <h4>Prazo</h4>
+                                    <p><strong>3 meses</strong></p>
+                                </div>
+                            </div>
+                            <div class="glass-card timeline-card" data-aos="fade-left" data-aos-delay="400">
+                                <div class="timeline-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div>
+                                    <h4>Dedicação</h4>
+                                    <p><strong>3 horas/dia</strong> por pessoa</p>
+                                </div>
+                            </div>
+                            <div class="glass-card timeline-card" data-aos="fade-left" data-aos-delay="500">
+                                <div class="timeline-icon">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                                <div>
+                                    <h4>Valor/Hora</h4>
+                                    <p><strong>R$ 21,85/hora</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Formas de Pagamento -->
+            <div class="slide" data-slide="7">
+                <div class="slide-content">
+                    <h2 class="slide-title" data-aos="fade-down">Formas de Pagamento</h2>
+                    <div class="pricing-container">
+                        <div class="glass-card pricing-card pricing-main palanca-card" data-aos="zoom-in"
+                            data-aos-delay="200">
+                            <div class="pricing-badge">
+                                <i class="fas fa-star"></i>
+                                Recomendado
+                            </div>
+                            <h3><i class="fas fa-credit-card"></i> À Vista</h3>
+                            <div class="price-value">R$ 25.958</div>
+                            <div class="price-discount">
+                                <i class="fas fa-percentage"></i> 5% de desconto
+                            </div>
+                        </div>
+                        <div class="glass-card pricing-card palanca-card" data-aos="zoom-in" data-aos-delay="400">
+                            <h3><i class="fas fa-calendar-alt"></i> Parcelado</h3>
+                            <div class="price-installment-details">
+                                <div class="installment-item">
+                                    <strong>Entrada (30%):</strong>
+                                    <span class="price-highlight">R$ 7.787,40</span>
+                                </div>
+                                <div class="installment-item">
+                                    <strong>10x de:</strong>
+                                    <span class="price-highlight">R$ 1.817,06</span>
+                                </div>
+                                <div class="installment-note">sem juros</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cta-section" data-aos="fade-up" data-aos-delay="600">
+                        <div class="cta-buttons-container">
+                            <a href="https://apresenta-iota.vercel.app/" target="_blank" rel="noopener"
+                                class="cta-button cta-button-prototype" id="prototype-btn">
+                                <i class="fas fa-eye"></i>
+                                Ver Protótipo do Sistema
+                            </a>
+                            <a href="https://wa.me/5511960438548?text=Gostei%2C%20vamos%20fechar" target="_blank"
+                                rel="noopener" class="cta-button cta-button-whatsapp" id="whatsapp-btn">
+                                <i class="fab fa-whatsapp"></i>
+                                Solicitar Proposta
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- AOS JavaScript -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

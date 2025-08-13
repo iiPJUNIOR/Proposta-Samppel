@@ -1,0 +1,31 @@
+{
+  "name": "processflow-premium-presentation",
+  "version": "1.0.0",
+  "description": "ProcessFlow - Apresentação Comercial Premium com 7 slides",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx live-server --port=3000 --open=/index.html",
+    "dev": "npx live-server --port=3000 --open=/index.html --watch=.",
+    "build": "echo 'Projeto não precisa de build - é HTML estático'",
+    "serve": "npx http-server -p 3000 -o"
+  },
+  "keywords": [
+    "presentation",
+    "processflow",
+    "html",
+    "css",
+    "javascript",
+    "glassmorphism"
+  ],
+  "author": "ProcessFlow Team",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "http-server": "^14.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "."
+  },
+  "homepage": "."
+}

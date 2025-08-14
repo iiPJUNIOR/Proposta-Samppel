@@ -20,12 +20,15 @@
   "author": "ProcessFlow Team",
   "license": "MIT",
   "devDependencies": {
-    "live-server": "^1.2.2",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
   },
   "repository": {
     "type": "git",
     "url": "."
   },
-  "homepage": "."
+  "homepage": ".",
+  "dependencies": {
+    "@vercel/analytics": "^1.5.0"
+  }
 }
